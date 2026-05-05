@@ -1,0 +1,1016 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ==================== CUSTOM FONT ==================== */
+@font-face {
+    font-family: 'Huiwen Mincho';
+    src: url('HuiwenMincho.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    /* 温暖米白色系 */
+    --bg-cream: #fefcf6;
+    --bg-cream-dark: #f5f3ed;
+    --bg-white: #ffffff;
+
+    /* 深色背景 */
+    --bg-dark: #1a1a2e;
+    --bg-dark-alt: #16213e;
+
+    /* 强调色 - 温暖活力 */
+    --accent-coral: #ff6b6b;
+    --accent-peach: #ffa07a;
+    --accent-gold: #ffd93d;
+    --accent-mint: #6bcf7f;
+    --accent-sky: #4ecdc4;
+    --accent-lavender: #a78bfa;
+
+    /* 文字颜色 */
+    --text-dark: #2d2d2d;
+    --text-medium: #5a5a5a;
+    --text-light: #8a8a8a;
+    --text-white: #fefcf6;
+
+    /* 阴影 */
+    --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
+
+    /* 渐变 */
+    --gradient-warm: linear-gradient(135deg, #ffd93d 0%, #ff6b6b 100%);
+    --gradient-cool: linear-gradient(135deg, #4ecdc4 0%, #a78bfa 100%);
+    --gradient-sunset: linear-gradient(135deg, #ffa07a 0%, #ff6b6b 100%);
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    font-family: 'Noto Sans SC', 'Inter', -apple-system, sans-serif;
+    background: var(--bg-cream);
+    color: var(--text-dark);
+    line-height: 1.75;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Huiwen Mincho', 'Noto Serif SC', serif;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+}
+
+em {
+    font-style: normal;
+    background: var(--gradient-warm);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* ==================== CURSOR GLOW ==================== */
+.cursor-glow {
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 215, 61, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+    mix-blend-mode: multiply;
+}
+
+/* ==================== LANGUAGE TOGGLE ==================== */
+.lang-toggle {
+    position: fixed;
+    top: 2rem;
+    right: 2rem;
+    z-index: 10000;
+    display: flex;
+    gap: 0.5rem;
+    background: var(--bg-white);
+    padding: 0.5rem;
+    border-radius: 50px;
+    box-shadow: var(--shadow-md);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.lang-toggle:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.lang-option {
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: var(--text-medium);
+}
+
+html[data-lang="zh"] .lang-option[data-lang="zh"],
+html[data-lang="en"] .lang-option[data-lang="en"] {
+    background: var(--gradient-warm);
+    color: white;
+}
+
+/* ==================== HERO — TERMINAL ==================== */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    background: var(--bg-cream);
+}
+
+.terminal-window {
+    width: 100%;
+    max-width: 800px;
+    background: var(--bg-dark);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.terminal-header {
+    background: var(--bg-dark-alt);
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.terminal-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.terminal-dot--red { background: #ff5f56; }
+.terminal-dot--yellow { background: #ffbd2e; }
+.terminal-dot--green { background: #27c93f; }
+
+.terminal-header-title {
+    margin-left: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.terminal-body {
+    padding: 2.5rem;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-white);
+    height: 450px;
+    overflow: hidden;
+}
+
+.terminal-line {
+    margin-bottom: 0.8rem;
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+.terminal-prompt {
+    color: #27c93f;
+    margin-right: 0.5rem;
+}
+
+.terminal-command {
+    color: #4ecdc4;
+}
+
+.terminal-output {
+    color: #ffd93d;
+}
+
+.terminal-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 18px;
+    background: #ffd93d;
+    margin-left: 2px;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+.hero-scroll {
+    position: absolute;
+    bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    animation: float 2s ease-in-out infinite;
+}
+
+.hero-scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--text-light), transparent);
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* ==================== SECTION COMMON ==================== */
+.section-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent-coral);
+    margin-bottom: 1rem;
+}
+
+.fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fade-up-delay-1 {
+    transition-delay: 0.15s;
+}
+
+/* ==================== ABOUT — CHAT BUBBLES ==================== */
+.about {
+    padding: 8rem 2rem;
+    background: var(--bg-cream-dark);
+}
+
+.about-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.about-headline {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 4rem;
+    max-width: 800px;
+}
+
+.about-chat-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+.about-photo-wrapper {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--bg-white);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    cursor: pointer;
+}
+
+.about-photo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.about-photo-wrapper:hover .about-photo-img {
+    transform: scale(1.05);
+}
+
+/* Avatar click ripple effect */
+.avatar-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 107, 107, 0.5) 0%, transparent 70%);
+    pointer-events: none;
+    animation: rippleEffect 0.6s ease-out;
+}
+
+@keyframes rippleEffect {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+@keyframes avatarBounce {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.about-photo-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    background: linear-gradient(135deg, #ffd93d20 0%, #ff6b6b20 100%);
+}
+
+.about-photo-placeholder span {
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    color: var(--text-light);
+}
+
+.about-photo-name {
+    margin-top: 1.5rem;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.about-chat {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.chat-bubble {
+    background: var(--bg-white);
+    padding: 1.5rem 2rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-sm);
+    max-width: 85%;
+    position: relative;
+}
+
+.chat-bubble--ai {
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+}
+
+.chat-bubble--me {
+    align-self: flex-end;
+    background: linear-gradient(135deg, #ffd93d40 0%, #ff6b6b40 100%);
+    border-bottom-right-radius: 4px;
+}
+
+.chat-bubble--highlight {
+    align-self: center;
+    max-width: 100%;
+    background: var(--gradient-warm);
+    color: white;
+    text-align: center;
+    font-weight: 500;
+}
+
+.chat-sender {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent-coral);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.chat-bubble p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-dark);
+}
+
+.chat-bubble--highlight p {
+    color: white;
+}
+
+/* ==================== TIMELINE ==================== */
+.timeline-section {
+    padding: 8rem 2rem;
+    background: var(--bg-cream);
+}
+
+.timeline-section-inner {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.timeline-section-headline {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 4rem;
+}
+
+.timeline {
+    position: relative;
+    padding-left: 3rem;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent-coral), var(--accent-lavender));
+}
+
+.tl-item {
+    position: relative;
+    margin-bottom: 3rem;
+    padding-left: 2rem;
+}
+
+.tl-item::before {
+    content: '';
+    position: absolute;
+    left: -3.5rem;
+    top: 0.5rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent-coral);
+    box-shadow: 0 0 0 4px var(--bg-cream), 0 0 0 6px var(--accent-coral);
+}
+
+.tl-year {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent-coral);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.tl-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+    color: var(--text-dark);
+}
+
+.tl-desc {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-medium);
+}
+
+/* ==================== OPINIONS ==================== */
+.opinions-section {
+    position: relative;
+}
+
+.opinion-slide {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+    background: #F4D758;
+}
+
+.opinion-number {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: clamp(6rem, 20vw, 16rem);
+    opacity: 0.06;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    line-height: 1;
+    pointer-events: none;
+    color: inherit;
+}
+
+.opinion-text {
+    font-family: 'Huiwen Mincho', 'Noto Serif SC', serif;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 5.5vw, 3.8rem);
+    max-width: 800px;
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* 木刻印刷斑驳效果 */
+    filter: url(#roughen);
+    text-shadow:
+        1px 1px 0 rgba(0, 0, 0, 0.1),
+        -1px -1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.opinion-text.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.opinion-deco {
+    font-family: 'Caveat', cursive;
+    font-size: 1.2rem;
+    opacity: 0.8;
+    margin-top: 2rem;
+    position: relative;
+    z-index: 1;
+    color: rgba(0, 0, 0, 0.6);
+    font-style: italic;
+    font-weight: 600;
+}
+
+/* ==================== PROJECTS ==================== */
+.projects {
+    padding: 8rem 2rem;
+    background: var(--bg-cream-dark);
+}
+
+.projects-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.projects-headline {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 4rem;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 3rem;
+}
+
+.project-card {
+    background: var(--bg-white);
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+}
+
+.project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+}
+
+.project-card-bg-text {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 8rem;
+    font-weight: 900;
+    color: rgba(0, 0, 0, 0.02);
+    font-family: 'Inter', sans-serif;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.project-card-content {
+    position: relative;
+    z-index: 1;
+}
+
+.project-card-emoji {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.project-card-title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+}
+
+.project-card-desc {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-medium);
+    margin-bottom: 1.5rem;
+}
+
+.project-card-tag {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--accent-coral);
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 107, 107, 0.1);
+    border-radius: 20px;
+}
+
+/* ==================== SKILLS — GRID MATRIX ==================== */
+.works {
+    padding: 8rem 0;
+    background: var(--bg-cream);
+}
+
+.works-top {
+    max-width: 1200px;
+    margin: 0 auto 4rem;
+    padding: 0 2rem;
+    text-align: center;
+}
+
+.works-headline {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: 1rem;
+}
+
+.works-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    font-weight: 400;
+}
+
+.works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.work-card {
+    background: var(--bg-white);
+    border-radius: 24px;
+    padding: 3rem;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.work-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-warm);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.work-card:hover::before {
+    transform: scaleX(1);
+}
+
+.work-card:hover {
+    transform: scale(1.08);
+    box-shadow: 0 20px 60px rgba(255, 107, 107, 0.25);
+    z-index: 10;
+}
+
+.work-card-number {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    line-height: 1;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.work-card:hover .work-card-number {
+    transform: scale(1.15) rotate(5deg);
+}
+
+.work-card-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+    line-height: 1.3;
+    transition: color 0.3s ease;
+}
+
+.work-card:hover .work-card-title {
+    background: var(--gradient-warm);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.work-card-platform {
+    font-size: 1rem;
+    color: var(--text-medium);
+    line-height: 1.8;
+    font-weight: 400;
+}
+
+/* ==================== CONTACT ==================== */
+.contact {
+    padding: 10rem 2rem;
+    background: var(--bg-cream-dark);
+    text-align: center;
+}
+
+.contact-inner {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.contact-headline {
+    font-size: clamp(3rem, 6vw, 5rem);
+    margin-bottom: 1.5rem;
+}
+
+.contact-sub {
+    font-size: 1.3rem;
+    color: var(--text-medium);
+    margin-bottom: 3rem;
+}
+
+.contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 4rem;
+}
+
+.contact-link {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background: var(--bg-white);
+    border-radius: 50px;
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 600;
+    font-size: 1.05rem;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+}
+
+.contact-link:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    background: var(--gradient-warm);
+    color: white;
+}
+
+.contact-quote {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.3rem;
+    line-height: 1.8;
+    color: var(--text-medium);
+    font-style: italic;
+}
+
+/* ==================== FOOTER ==================== */
+.footer {
+    padding: 2rem;
+    background: var(--bg-dark);
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+    .about-chat-layout {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .about-photo-wrapper {
+        max-width: 200px;
+        margin: 0 auto;
+    }
+
+    .chat-bubble {
+        max-width: 95%;
+    }
+
+    .project-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .timeline {
+        padding-left: 2rem;
+    }
+
+    .tl-item {
+        padding-left: 1.5rem;
+    }
+
+    .works-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 0 1.5rem;
+    }
+
+    .work-card {
+        padding: 2.5rem;
+    }
+
+    .work-card-number {
+        font-size: 3.5rem;
+    }
+
+    .work-card-title {
+        font-size: 1.6rem;
+    }
+
+    .work-card-platform {
+        font-size: 0.95rem;
+    }
+
+    .about, .timeline-section, .projects, .works {
+        padding: 5rem 0;
+    }
+
+    .contact {
+        padding: 6rem 0;
+    }
+
+    .hero {
+        padding: 4rem 1rem;
+    }
+
+    .terminal-window {
+        border-radius: 12px;
+    }
+
+    .terminal-body {
+        padding: 2rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .works-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
+/* ==================== 3D TILT EFFECT ==================== */
+[data-tilt] {
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease;
+}
+
+/* ==================== WECHAT MODAL ==================== */
+.wechat-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.3s ease;
+}
+
+.wechat-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wechat-modal-content {
+    background: white;
+    padding: 2.5rem 2rem 2rem;
+    border-radius: 24px;
+    max-width: 360px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.wechat-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2rem;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    line-height: 1;
+}
+
+.wechat-modal-close:hover {
+    color: var(--accent-coral);
+    transform: rotate(90deg);
+}
+
+.wechat-modal-content h3 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-dark);
+}
+
+.wechat-qr-placeholder {
+    width: 220px;
+    height: 220px;
+    margin: 0 auto 1.2rem;
+    background: #f5f5f5;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.wechat-qr-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    padding: 8px;
+}
+
+.wechat-qr-placeholder p:first-child {
+    font-size: 3rem;
+    margin: 0;
+}
+
+.wechat-qr-placeholder p {
+    margin: 0;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.wechat-hint {
+    font-size: 0.75rem !important;
+    color: var(--text-light);
+    opacity: 0.7;
+}
+
+.wechat-name {
+    font-size: 1.1rem;
+    color: var(--text-medium);
+    font-weight: 500;
+}
